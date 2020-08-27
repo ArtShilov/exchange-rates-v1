@@ -1,0 +1,12 @@
+.App{
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.App__table{
+margin-top: 2vh;
+}
+
+
+

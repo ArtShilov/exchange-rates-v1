@@ -1,0 +1,67 @@
+.container {
+  background-color:#1047A9;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 350px;
+}
+
+.courseTable {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  min-width: 400px;
+}
+.courseTable th,
+.courseTable td {
+  border: 1px solid grey;
+  width: 75px;
+  text-align: center;
+}
+
+.courseTable td:first-child {
+  text-align: start;
+  width: 400px;
+  background-color: #4577D4;
+}
+.courseTable td:not(first-child) {
+  width:95px;
+  background-color: #6B90D4;
+}
+
+.pagination {
+  margin-top: auto;
+  margin-bottom: 5px;
+}
+
+.pagination .--selected {
+  font-weight: bold;
+}
+
+.arrow-up {
+  border-color: black transparent;
+  border-style: solid;
+  border-width: 0px 5px 5px 5px;
+  height: 0px;
+  width: 0px;
+}
+
+.arrow-down {
+  border-color: black transparent;
+  border-style: solid;
+  border-width: 5px 5px 0px 5px;
+  height: 0px;
+  width: 0px;
+}
+
+.tableHead__sort {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tableHead__sort span:first-child {
+  padding-right: 4px;
+}
+

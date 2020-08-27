@@ -1,0 +1,16 @@
+.graphMenu{
+  display: flex;
+  flex-direction: column;
+}
+.button__json{
+  margin-left: auto;
+}
+.button__json a{
+  text-decoration: none;
+  color: black;
+}
+
+.graph{
+  height: 600px;
+  width: 600px;
+}

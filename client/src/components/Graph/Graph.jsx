@@ -25,11 +25,9 @@ export default function Graph({ dataToSelectInput }) {
     const responce = await axios.get(
       `/course-valute-on-period/${dateFrom}/${dateTo}/${valuteData.value}`
     );
-    console.log("graphRequestHandler -> responce", typeof responce.data);
     const data = JSON.parse(responce.data);
     setJsonDataToDownload(data);
     const { dateArray, valueArray } = data;
-    console.log("graphRequestHandler -> ValueArray", valueArray);
     const { to, from } = data.periodDate;
     const newOptions = {
       ...HighchartsReactOptions,

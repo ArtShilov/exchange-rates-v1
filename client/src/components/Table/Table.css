@@ -20,12 +20,18 @@
 
 .courseTable td:first-child {
   text-align: start;
-  width: 400px;
   background-color: #4577D4;
 }
 .courseTable td:not(first-child) {
-  width:95px;
   background-color: #6B90D4;
+}
+
+.thead__twoRow th:first-child {
+  text-align: start;
+  width: 400px;
+}
+.thead__twoRow th:not(first-child) {
+  width:95px;
 }
 
 .pagination {

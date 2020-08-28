@@ -3,7 +3,7 @@ const path = require("path");
 const dbPath = path.resolve(__dirname, "../database.db");
 const { dateFormat } = require("./dateFormat");
 
-function manualFillTable(data) {
+function fillDBTable(data) {
   const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
       return console.error(err.message);
@@ -64,14 +64,14 @@ function manualFillTable(data) {
   });
 }
 
-const readRecordsFromTableOnDay = function (date) {
+const readRecordsFromDBTableOnDay = function (date) {
   const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
       return console.error(err.message);
     }
     console.log("Connected to ../sqlite3/database.db SQlite database.");
   });
-
+  const formatDate = dateFormat(date,'YYYY-MM-DD','DD.MM.YYYY')
   return new Promise(function (resolve, reject) {
     db.all(`SELECT * FROM courseValute WHERE DATE = '${date}'`, function (
       err,
@@ -79,10 +79,10 @@ const readRecordsFromTableOnDay = function (date) {
     ) {
       if (err) {
         console.error(err.message);
-        resolve(err.message);
+        resolve({result:false});
       } else {
         resolve({
-          ValCurs: { Valute: [...row], _attributes: { Date: date } },
+          ValCurs: { Valute: [...row], _attributes: { Date: formatDate } },
         });
       }
     });
@@ -127,7 +127,7 @@ const readRecordsFromTableOnPeriod = function (dateFrom, dateTo, valID) {
 };
 
 module.exports = {
-  manualFillTable,
-  readRecordsFromTableOnDay,
+  fillDBTable,
+  readRecordsFromDBTableOnDay,
   readRecordsFromTableOnPeriod,
 };

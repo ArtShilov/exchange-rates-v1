@@ -21,4 +21,8 @@ function dateFormat(date, formatBefore, formatAfter) {
   }
 }
 
-module.exports = { getDateArray, dateFormat };
+function todayDate(formatAfter) {
+  return dateFormat(moment(),'YYYY-MM-DDTHH:mm:ss.SSS',formatAfter)
+}
+
+module.exports = { getDateArray, dateFormat,todayDate };

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from "react";
 import "./App.css";
 import axios from "axios";
 import Table from "../Table";
-import Loader from "../Loader";
 import Graph from "../Graph";
 import SelectInput from "../SelectInput";
 import ManualLoading from "../ManualLoading";
@@ -12,8 +11,9 @@ function App() {
   const [valCourseFilter, setValCourseFilter] = useState("");
   const [dataToSelectInput, setDataToSelectInput] = useState([]);
   const [dateForTableFilter, setDateForTableFilter] = useState("");
-  const [noDateForTable, setNoDateForTable] = useState(false);
+  const [noDataForTableMessage, setNoDataForTableMessage] = useState('');
   const [selectDataForTableFilter, setSelectDataForTableFilter] = useState("");
+  const [dataIsLoaded, setDataIsLoaded] = useState(false);
   const today = useMemo(() => new Date().toISOString().split("T")[0], [
     dateForTableFilter,
   ]);
@@ -34,34 +34,48 @@ function App() {
 
   /* запрос на сервер */
   const fetchData = async () => {
-    const dateNow = new Date();
-    const formatDate = dateNow.toISOString().split("T")[0];
+
     const responce = await axios.get(
-      `/course-valute-on-date/${
-        dateForTableFilter ? dateForTableFilter : formatDate
-      }`
+      `/course-valute-on-date/${dateForTableFilter}`
     );
     const data = JSON.parse(responce.data);
-    if (data.result === false) {
-      setNoDateForTable(true)
-    }else{
+    if (data.result === 'Ошибка БД') {
+      setNoDataForTableMessage(data.result);
+    }else if (data.result === 'Нет данных') {
+      setNoDataForTableMessage(data.result);
+    }
+     else {
       const nameList = data.ValCurs.Valute.map((e) => {
         return { value: e.ID, label: e.Name };
       });
-      setNoDateForTable(false)
+      setNoDataForTableMessage('');
+      setDataIsLoaded(true);
       setValCourse(data.ValCurs);
       setDataToSelectInput(nameList);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    const timeout = setTimeout(() => {
+      if (dataIsLoaded) {
+        setDataIsLoaded('');
+      }
+      if (noDataForTableMessage) {
+        setNoDataForTableMessage('');
+      }
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [dataIsLoaded,noDataForTableMessage]);
+  
 
   /* изменяет данные фильтрованной таблицы */
   useEffect(() => {
     filterTableHandler(selectDataForTableFilter);
   }, [valCourse]);
+
 
   return (
     <div className="App">
@@ -79,7 +93,11 @@ function App() {
         />
         <button onClick={fetchData}>отправить</button>
 
-        {noDateForTable ? <span>{"На этот день нет данных"}</span> : null}
+        {dataIsLoaded ? (
+          <span>{"Данные загружены"}</span>
+        ) : noDataForTableMessage ? (
+          <span>{noDataForTableMessage}</span>
+        ) : null}
 
         <SelectInput
           options={dataToSelectInput}
@@ -90,11 +108,9 @@ function App() {
         />
       </div>
       <div className={"App__table"}>
-        {valCourse.Valute ? (
-          <Table valCourse={valCourseFilter ? valCourseFilter : valCourse} />
-        ) : (
-          <Loader type={"bars"} color={"grey"} height={667} width={375} />
-        )}
+
+      <Table valCourse={valCourseFilter ? valCourseFilter : valCourse} />
+
       </div>
       <div>
         <h1>График</h1>

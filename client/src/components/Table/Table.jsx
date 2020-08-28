@@ -7,7 +7,7 @@ export default function Table({ valCourse}) {
   const [pageSize] = useState(10);
   const [courseArray, setCourseArray] = useState([]);
   const [currentValutes, setCurrentValutes] = useState([]);
-  const totalValuteCount = useMemo(() => valCourse.Valute.length, [valCourse]);
+  const totalValuteCount = useMemo(() => valCourse.Valute ? valCourse.Valute.length : 0 , [valCourse]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('Name');
   const [tableHead, setTableHead] = useState([
@@ -74,13 +74,15 @@ export default function Table({ valCourse}) {
   };
 
   useEffect(() => {
-    sortColumn(sortBy)
-    setCurrentValutes(currentValutesMemo())
+    if (totalValuteCount > 0) {
+      sortColumn(sortBy)
+      setCurrentValutes(currentValutesMemo())
+    }
     
-  }, [tableHead, courseArray, sortBy, currentValutesMemo, valCourse ])
+  }, [tableHead, courseArray, sortBy, currentValutesMemo, totalValuteCount , valCourse ])
 
   useEffect(() => {
-    if (valCourse.Valute.length < 10) {
+    if (totalValuteCount < 10) {
       setCurrentPage(1)
 }
   }, [valCourse ])
@@ -91,9 +93,9 @@ export default function Table({ valCourse}) {
       <table className={"courseTable"}>
         <thead>
           <tr>
-            <th colSpan="5">{valCourse._attributes.Date}</th>
+            <th colSpan="5">{valCourse._attributes ? valCourse._attributes.Date : 'Не выбран день'}</th>
           </tr>
-          <tr>
+          <tr className={'thead__twoRow'}>
             {tableHead.map((obj, i) => (
               <th onClick={() => handleSortTable(obj)} key={`${obj + i}`}>
                 <div className={"tableHead__sort"}>
@@ -113,7 +115,7 @@ export default function Table({ valCourse}) {
           </tr>
         </thead>
         <tbody>
-          {currentValutes.length !== 0?
+          {totalValuteCount > 0 && currentValutes.length !== 0? 
           currentValutes.map((obj) => {
             const {
               Name,
@@ -136,7 +138,7 @@ export default function Table({ valCourse}) {
           }
         </tbody>
       </table>
-      {valCourse.Valute.length > pageSize ? (
+      {totalValuteCount > pageSize ? (
         <div className={"pagination"}>
           {pageCount.map((e) => (
             <button

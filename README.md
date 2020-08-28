@@ -11,10 +11,10 @@ $ npm run dev
 ```
 
 ## Требования к среде исполнения
-Node (min 13v)
-Создать файл .env в папке server/ 
-requestCBRonDate - ссылка для получения котировок на заданный день 
-Пример файла: 
+Node (min 13v) <br />
+Создать файл .env в папке server/ <br />
+requestCBRonDate - ссылка для получения котировок на заданный день <br />
+Пример файла: <br />
 requestCBRonDate = 'http://www.cbr.ru/scripts/XML_daily.asp'
 
 ## Инструкция по развертыванию на Heroku
@@ -24,10 +24,10 @@ requestCBRonDate = 'http://www.cbr.ru/scripts/XML_daily.asp'
 ```sh
 heroku login 
 ```
-Create New App -> Выбрать название 
+Create New App -> Выбрать название <br />
 
-* В папке проекта прописать команды:
-1. Инициализировать Git репозиторий
+* В папке проекта прописать команды:<br />
+1. Инициализировать Git репозиторий<br />
 ```sh
 git init
 heroku git:remote -a PROJECT__NAME

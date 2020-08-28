@@ -19,8 +19,8 @@ requestCBRonDate = 'http://www.cbr.ru/scripts/XML_daily.asp'
 
 ## Инструкция по развертыванию на Heroku
 * Установить heroku (https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
-Пройти регистрацию на сайте
-Пройти аутентификацию 
+Пройти регистрацию на сайте<br />
+Пройти аутентификацию <br />
 ```sh
 heroku login 
 ```

@@ -22,7 +22,7 @@ function dateFormat(date, formatBefore, formatAfter) {
 }
 
 function todayDate(formatAfter) {
-  return dateFormat(moment(),'YYYY-MM-DDTHH:mm:ss.SSS',formatAfter)
+  return dateFormat(moment(), "YYYY-MM-DDTHH:mm:ss.SSS", formatAfter);
 }
 
-module.exports = { getDateArray, dateFormat,todayDate };
+module.exports = { getDateArray, dateFormat, todayDate };

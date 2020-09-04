@@ -140,4 +140,4 @@ dist
 .pnp.*
 
 # database
-.db
+server/database.db

@@ -5,17 +5,38 @@ import axios from "axios";
 import SelectInput from "../SelectInput";
 import options from "./optionForGraph";
 import "./Graph.css";
+import DateInput from "../DateInput/index";
+import Button from "../Button/index";
 
 export default function Graph({ dataToSelectInput }) {
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [dataToSelectInputFromDB, setDataToSelectInputFromDB] = useState("");
   const [valuteData, setValuteData] = useState("");
   const [jsonDataToDownload, setJsonDataToDownload] = useState("");
   const [HighchartsReactOptions, setHighchartsReactOptions] = useState(options);
   const today = useMemo(() => new Date().toISOString().split("T")[0], [dateTo]);
 
   useEffect(() => {
-    setValuteData(dataToSelectInput[0]);
+    const data = dataToSelectInputFromDB
+      ? dataToSelectInputFromDB
+      : dataToSelectInput;
+    setValuteData(data[0]);
+  }, [dataToSelectInput, dataToSelectInputFromDB]);
+
+  useEffect(() => {
+    if (dataToSelectInput.length === 0) {
+      requestForFillSelect();
+    }
+    async function requestForFillSelect() {
+      const responce = await axios.get(`/fillSelectInput`);
+      const data = JSON.parse(responce.data);
+      if (data.result === false) {
+        return;
+      } else {
+        setDataToSelectInputFromDB(data);
+      }
+    }
   }, [dataToSelectInput]);
 
   /* запрос на сервер для графика */
@@ -46,35 +67,36 @@ export default function Graph({ dataToSelectInput }) {
     <div className={"graph"}>
       <div className={"graphMenu"}>
         <form onSubmit={(e) => graphRequestHandler(e)}>
-          <SelectInput
-            options={dataToSelectInput}
-            isMulti={false}
-            selectHandler={(value) => setValuteData(value)}
-            closeMenuOnSelect={true}
-            defaultValue={valuteData}
-          />
-          <input
-            type="date"
+          <DateInput
             value={dateFrom}
             min={"2015-01-01"}
             max={!dateTo ? today : dateTo}
             onChange={(e) => setDateFrom(e.target.value)}
-            required
           />
-          <input
-            type="date"
+          <DateInput
             value={dateTo}
             min={!dateFrom ? "2015-01-01" : dateFrom}
             max={today}
             onChange={(e) => setDateTo(e.target.value)}
-            required
           />
-          <button type={"submit"}>отправить</button>
+          <Button type={"submit"}>отправить</Button>
         </form>
-
+        <SelectInput
+          options={
+            dataToSelectInputFromDB
+              ? dataToSelectInputFromDB
+              : dataToSelectInput
+          }
+          isMulti={false}
+          selectHandler={(value) => setValuteData(value)}
+          closeMenuOnSelect={true}
+          defaultValue={valuteData}
+        />
+          <div className={'Button--right'}>
         {jsonDataToDownload ? (
-          <button className={"button__json"}>
+          <Button type={"button"}>
             <a
+              style={{ textDecoration: "inherit", color: "inherit" }}
               href={`data:text/json;charset=utf-8,${encodeURIComponent(
                 JSON.stringify(jsonDataToDownload)
               )}`}
@@ -82,8 +104,9 @@ export default function Graph({ dataToSelectInput }) {
             >
               {`Download Json`}
             </a>
-          </button>
+          </Button>
         ) : null}
+        </div>
       </div>
       {jsonDataToDownload ? (
         <HighchartsReact
@@ -91,7 +114,7 @@ export default function Graph({ dataToSelectInput }) {
           options={HighchartsReactOptions}
         />
       ) : (
-        <div style={{ height: "500px" }}></div>
+        <div style={{ height: "90%" }}></div>
       )}
     </div>
   );

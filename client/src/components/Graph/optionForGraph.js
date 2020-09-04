@@ -30,8 +30,8 @@ const options = {
     ],
   },
   chart: {
-    height: 400,
-    width: 600
+    height: 450,
+    width: 900
 },
 };
 

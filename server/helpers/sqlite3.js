@@ -126,8 +126,41 @@ const readRecordsFromTableOnPeriod = function (dateFrom, dateTo, valID) {
   });
 };
 
+const readRecordsFromDBTableUniqueName = function () {
+  const db = new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log("Connected to ../sqlite3/database.db SQlite database.");
+  });
+  return new Promise(function (resolve, reject) {
+    db.all(`SELECT DISTINCT Name,ID FROM courseValute`, function (
+      err,
+      row
+      ) {
+        if (err) {
+          console.error(err.message);
+          resolve({result:false});
+        } else {
+         const result = row.map(e=>{ return {value: e.ID, label: e.Name} })
+        resolve(
+          result
+        );
+      }
+    });
+
+    db.close((err) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log("Close the database connection.");
+    });
+  });
+};
+
 module.exports = {
   fillDBTable,
   readRecordsFromDBTableOnDay,
   readRecordsFromTableOnPeriod,
+  readRecordsFromDBTableUniqueName,
 };

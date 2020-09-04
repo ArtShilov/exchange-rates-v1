@@ -13,9 +13,10 @@ $ npm run dev
 ## Требования к среде исполнения
 Node (min 13v) <br />
 Создать файл .env в папке server/ <br />
-requestCBRonDate - ссылка для получения котировок на заданный день <br />
-Пример файла: <br />
+Скопировать в файл .env: <br />
+```sh
 requestCBRonDate = 'http://www.cbr.ru/scripts/XML_daily.asp'
+```
 
 ## Инструкция по развертыванию на Heroku
 * Установить heroku (https://devcenter.heroku.com/articles/heroku-cli#download-and-install)

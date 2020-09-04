@@ -1,5 +1,9 @@
-.ManualLoading__dataisLoading{
-  min-height:20px ;
+.ManualLoading__dataisLoading {
+  padding-top:15px ;
+  min-height: 20px;
   display: flex;
   justify-content: center;
+}
+.ManualLoading {
+  min-height: 100vh;
 }

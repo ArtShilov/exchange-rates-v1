@@ -7,6 +7,7 @@ const {
   fillDBTable,
   readRecordsFromDBTableOnDay,
   readRecordsFromTableOnPeriod,
+  readRecordsFromDBTableUniqueName,
 } = require("../helpers/sqlite3");
 const { getDateArray, dateFormat } = require("../helpers/dateFormat");
 
@@ -29,11 +30,10 @@ router.get("/course-valute-on-date/:date", async function (req, res, next) {
   const jsonOfDB = await readRecordsFromDBTableOnDay(date);
 
   if (jsonOfDB.result === false) {
-    res.json(JSON.stringify({result:"Ошибка БД"}));
-  }else if (jsonOfDB.ValCurs.Valute.length === 0) {
-    res.json(JSON.stringify({result:"Нет данных"}));
-  }
-   else {
+    res.json(JSON.stringify({ result: "Ошибка БД" }));
+  } else if (jsonOfDB.ValCurs.Valute.length === 0) {
+    res.json(JSON.stringify({ result: "Нет данных" }));
+  } else {
     res.json(JSON.stringify(jsonOfDB));
   }
 });
@@ -61,6 +61,15 @@ router.get("/course-valute-on-period/:dateFrom/:dateTo/:valID", async function (
       periodDate: { from: formatedDateFrom, to: formatedDateTo },
     })
   );
+});
+
+router.get("/fillSelectInput", async function (req, res, next) {
+  const jsonOfDB = await readRecordsFromDBTableUniqueName();
+  if (jsonOfDB.result === false) {
+    res.json(JSON.stringify({ result: false }));
+  } else {
+    res.json(JSON.stringify( jsonOfDB ));
+  }
 });
 
 module.exports = router;

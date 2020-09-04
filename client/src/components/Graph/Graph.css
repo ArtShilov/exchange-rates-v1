@@ -1,16 +1,21 @@
-.graphMenu{
+.graphMenu {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
-.button__json{
-  margin-left: auto;
-}
-.button__json a{
-  text-decoration: none;
-  color: black;
+.graphMenu form {
+  margin-bottom: 11px;
+  height: 10vh;
 }
 
-.graph{
+.graph {
   height: 600px;
-  width: 600px;
+  min-width: 900px;
+  margin-bottom: 15vh;
+}
+
+.Button--right {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }

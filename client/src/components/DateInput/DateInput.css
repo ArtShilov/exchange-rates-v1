@@ -1,0 +1,24 @@
+.dateInput{
+  background: transparent;
+  margin: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0 20px;
+  height: 40px;
+  line-height: 38px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.7s;
+}
+
+.dateInput:hover{
+  border-color: #00b4e3;
+}
+
+.dateInput::-webkit-calendar-picker-indicator:hover {
+  background: url(/assets/changeCalendar.png) center/80% no-repeat;
+  cursor: pointer;
+}
+
+

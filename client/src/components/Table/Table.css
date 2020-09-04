@@ -1,46 +1,67 @@
 .container {
-  background-color:#1047A9;
   display: flex;
   align-items: center;
   flex-direction: column;
-  min-height: 350px;
+  min-height: 560px;
+  margin-bottom: 15vh;
 }
 
 .courseTable {
-  border: 1px solid grey;
   border-collapse: collapse;
-  min-width: 400px;
 }
 .courseTable th,
 .courseTable td {
-  border: 1px solid grey;
+  border-top: 1px solid grey;
   width: 75px;
   text-align: center;
+  padding: 10px 2px 10px 23px;
+}
+
+tbody tr{
+  font-weight: 300;
+
+}
+
+.courseTable tbody tr:hover {
+  background-color: #dfe9fd;
 }
 
 .courseTable td:first-child {
   text-align: start;
-  background-color: #4577D4;
-}
-.courseTable td:not(first-child) {
-  background-color: #6B90D4;
 }
 
-.thead__twoRow th:first-child {
+/* THEAD */
+.tableHead__sort {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.thead__secondRow th:hover {
+  color: #dfe9fd;
+}
+
+.tableHead__sort span:first-child {
+  padding-right: 4px;
+}
+
+.thead__secondRow th:first-child {
   text-align: start;
   width: 400px;
 }
-.thead__twoRow th:not(first-child) {
-  width:95px;
+.thead__secondRow th:not(first-child) {
+  width: 95px;
+}
+.courseTable .thead__firstRow th {
+  border-top: none;
 }
 
+/* PAGINATION */
 .pagination {
   margin-top: auto;
   margin-bottom: 5px;
-}
-
-.pagination .--selected {
-  font-weight: bold;
 }
 
 .arrow-up {
@@ -58,16 +79,3 @@
   height: 0px;
   width: 0px;
 }
-
-.tableHead__sort {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  user-select: none;
-}
-
-.tableHead__sort span:first-child {
-  padding-right: 4px;
-}
-

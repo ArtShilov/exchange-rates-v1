@@ -2,8 +2,10 @@ import React, { useMemo, useState, useEffect } from "react";
 import axios from "axios";
 import "./ManualLoading.css";
 import Loader from "../Loader";
+import Button from "../Button/Button";
+import DateInput from "../DateInput/index";
 
-export default function ManualLoading() {
+export default function ManualLoading({setDataToSelectInput}) {
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
@@ -19,6 +21,14 @@ export default function ManualLoading() {
     if (data.result === true) {
       setDataIsLoading(false);
       setDataIsLoaded(true);
+      const responce = await axios.get(`/fillSelectInput`);
+      const data = JSON.parse(responce.data);
+      if (data.result === false) {
+        return
+      }
+      else{
+        setDataToSelectInput(data)
+      }
     }
   };
 
@@ -35,30 +45,28 @@ export default function ManualLoading() {
   }, [dataIsLoaded]);
 
   return (
-    <div>
+    <div className={'ManualLoading'}>
       <form onSubmit={(e) => graphRequestHandler(e)}>
-        <input
-          type="date"
+        <DateInput
           value={dateFrom}
           min={"2015-01-01"}
           max={!dateTo ? today : dateTo}
           onChange={(e) => setDateFrom(e.target.value)}
-          required
         />
-        <input
-          type="date"
+        <DateInput
           value={dateTo}
           min={!dateFrom ? "2015-01-01" : dateFrom}
           max={today}
           onChange={(e) => setDateTo(e.target.value)}
-          required
         />
-        <button type={"submit"}>отправить</button>
+        <Button type={"submit"}>отправить</Button>
       </form>
+
       {
         <div className={"ManualLoading__dataisLoading"}>
+        {/* <span>{"Данные загружены"}</span> */}
           {dataIsLoadIng ? (
-            <Loader type={"bars"} color={"grey"} height={20} width={20} />
+            <Loader type={"bars"} color={"grey"} height={70} width={70} />
           ) : dataIsLoaded ? (
             <span>{"Данные загружены"}</span>
           ) : null}

@@ -1,0 +1,27 @@
+.button{
+  background: transparent;
+  margin: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0 20px;
+  height: 40px;
+  line-height: 38px;
+  font-size: 14px;
+  color: #ddd;
+  outline: none;
+  transition: border-color 0.7s, color 0.7s;
+}
+.button--select{
+  border-color: #00b4e3;
+  color: #333333;
+}
+
+.button:hover{
+  border-color: #00b4e3;
+  color: #333333;
+}
+
+.button::selection {
+  background: transparent;
+}
